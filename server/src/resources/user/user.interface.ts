@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export default interface User extends Document {
+export interface User extends Document {
     name: string;
     lastName: string;
     email: string;
@@ -8,4 +8,9 @@ export default interface User extends Document {
     location: string;
 
     comparePassword: (candidatePassword: string) => Promise<Error | boolean>;
+}
+
+export interface RegisterUser {
+    user: Pick<User, 'name' | 'lastName' | 'email' | 'location'>;
+    token: string;
 }

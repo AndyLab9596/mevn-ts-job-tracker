@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { model, Schema } from "mongoose";
-import User from '@/resources/user/user.interface';
+import { User } from '@/resources/user/user.interface';
 import bcrypt from 'bcryptjs'
 
 const UserSchema = new Schema({
