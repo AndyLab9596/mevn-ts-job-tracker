@@ -25,11 +25,14 @@ class JobController implements Controller {
             .get(
                 this.getAllJob
             ),
-        this.router.route(`${this.path}/:id`)
-            .patch(
-                validationMiddleware(validation.createJob),
-                this.updateJob
-            )
+            this.router.route(`${this.path}/:id`)
+                .patch(
+                    validationMiddleware(validation.createJob),
+                    this.updateJob
+                )
+                .delete(
+                    this.deleteJob
+                )
     }
 
     private createJob = async (
@@ -74,6 +77,21 @@ class JobController implements Controller {
             const requestUserId = req.user.userId;
             const updatedJob = await this.JobService.updateJob(jobId, jobObject, requestUserId);
             res.status(StatusCodes.OK).json(updatedJob);
+        } catch (error) {
+            next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
+        }
+    }
+
+    private deleteJob = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const jobId = req.params.id;
+            const requestUserId = req.user.userId;
+            const message = await this.JobService.deleteJob(jobId, requestUserId);
+            res.status(StatusCodes.OK).json({ msg: message });
         } catch (error) {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
         }

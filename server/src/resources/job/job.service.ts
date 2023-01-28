@@ -64,6 +64,25 @@ class JobService {
             throw new Error((error as Error).message)
         }
     }
+
+    public async deleteJob(jobId: string, requestUserId: Types.ObjectId): Promise<string | Error> {
+        try {
+            const job = await this.job.findOne({ _id: jobId });
+
+            if (!job) {
+                throw new Error(`No job with id ${jobId}`);
+            }
+
+            const isAuthorized = checkPermission(requestUserId, job.createdBy);
+            if (!isAuthorized) {
+                throw new Error('Not authorized');
+            }
+            await job.remove();
+            return 'Success! Job is removed'
+        } catch (error) {
+            throw new Error((error as Error).message)
+        }
+    }
 }
 
 export default JobService;
