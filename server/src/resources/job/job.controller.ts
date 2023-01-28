@@ -24,6 +24,11 @@ class JobController implements Controller {
             )
             .get(
                 this.getAllJob
+            ),
+        this.router.route(`${this.path}/:id`)
+            .patch(
+                validationMiddleware(validation.createJob),
+                this.updateJob
             )
     }
 
@@ -46,13 +51,29 @@ class JobController implements Controller {
     }
 
     private getAllJob = async (
-        req: Request,
+        _req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
         try {
             const allJobs = await this.JobService.getAllJob();
             res.status(StatusCodes.OK).json(allJobs);
+        } catch (error) {
+            next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
+        }
+    }
+
+    private updateJob = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const jobId = req.params.id;
+            const jobObject = req.body;
+            const requestUserId = req.user.userId;
+            const updatedJob = await this.JobService.updateJob(jobId, jobObject, requestUserId);
+            res.status(StatusCodes.OK).json(updatedJob);
         } catch (error) {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
         }
