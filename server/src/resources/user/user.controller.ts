@@ -19,7 +19,12 @@ class UserController implements Controller {
             `${this.path}/register`,
             validationMiddleware(validation.register),
             this.register
-        )
+        );
+        this.router.post(
+            `${this.path}/login`,
+            validationMiddleware(validation.login),
+            this.login
+        );
     }
 
     private register = async (
@@ -41,6 +46,20 @@ class UserController implements Controller {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
         }
     };
+
+    private login = async (
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<Response | void> => {
+        try {
+            const { email, password } = req.body;
+            const userLoggedIn = await this.UserService.login(email, password);
+            res.status(StatusCodes.CREATED).json(userLoggedIn);
+        } catch (error) {
+            next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
+        }
+    }
 
 }
 
