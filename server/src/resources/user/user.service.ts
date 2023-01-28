@@ -1,15 +1,15 @@
-import UserModel from '@/resources/user/user.model';
-import token from '@/utils/token';
-import { RegisterUser } from '@/resources/user/user.interface';
+import token from "../../utils/token";
+import { RegisterUser } from "./user.interface";
+import userModel from "./user.model";
 
 class UserService {
-    private user = UserModel
+    private user = userModel
 
     public async register(
         name: string,
         lastName: string,
-        email: string,
         location: string,
+        email: string,
         password: string,
     ): Promise<RegisterUser | Error> {
         try {
@@ -28,8 +28,8 @@ class UserService {
                 user: {
                     name: user.name,
                     lastName: user.lastName,
-                    email: user.email,
                     location: user.location,
+                    email: user.email,
                 },
                 token: jwt,
             };

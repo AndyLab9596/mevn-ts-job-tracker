@@ -1,7 +1,6 @@
-import Joi from "joi";
 import { model, Schema } from "mongoose";
-import { User } from '@/resources/user/user.interface';
 import bcrypt from 'bcryptjs'
+import { User } from "./user.interface";
 
 const UserSchema = new Schema({
     name: {
@@ -20,11 +19,12 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        validate: {
-            validator: Joi.string().email().required(),
-            message: 'Please provide proper email !',
-            unique: true,
-        },
+        required: [true, 'Please provide email'],
+        match: [
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            'Please provide a valid email',
+        ],
+        unique: true,
     },
     password: {
         type: String,

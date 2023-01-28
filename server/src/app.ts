@@ -1,11 +1,11 @@
 import express, { Application } from 'express';
-import Controller from '@/utils/interfaces/controller.interface';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import mongoose from 'mongoose';
-import ErrorMiddleware from '@/middleware/error.middleware';
+import Controller from './utils/interfaces/controller.interface';
+import errorMiddleware from './middleware/error.middleware';
 
 class App {
     public express: Application;
@@ -43,7 +43,7 @@ class App {
     }
 
     private initialiseErrorHandling(): void {
-        this.express.use(ErrorMiddleware);
+        this.express.use(errorMiddleware);
     }
 
     public listen(): void {

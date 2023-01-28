@@ -1,11 +1,10 @@
-import HttpException from '@/utils/exceptions/http.exception';
-import Controller from '@/utils/interfaces/controller.interface';
 import { NextFunction, Router, Request, Response } from 'express';
-import UserService from '@/resources/user/user.service';
 import { StatusCodes } from 'http-status-codes';
-import validationMiddleware from '@/middleware/validation.middleware';
-import validate from '@/resources/user/user.validation';
-
+import validationMiddleware from '../../middleware/validation.middleware';
+import HttpException from '../../utils/exceptions/http.exception';
+import Controller from '../../utils/interfaces/controller.interface';
+import UserService from './user.service';
+import validation from './user.validation';
 class UserController implements Controller {
     public path = '/users';
     public router = Router();
@@ -18,7 +17,7 @@ class UserController implements Controller {
     private initialiseRoutes(): void {
         this.router.post(
             `${this.path}/register`,
-            validationMiddleware(validate.register),
+            validationMiddleware(validation.register),
             this.register
         )
     }
@@ -37,7 +36,7 @@ class UserController implements Controller {
                 email,
                 password
             );
-            res.status(StatusCodes.CREATED).json({ user: userCreated });
+            res.status(StatusCodes.CREATED).json(userCreated);
         } catch (error) {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
         }
