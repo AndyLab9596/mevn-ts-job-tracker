@@ -1,5 +1,6 @@
 import { NextFunction, Router, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import authenticatedMiddleware from '../../middleware/authenticated.middleware';
 import validationMiddleware from '../../middleware/validation.middleware';
 import HttpException from '../../utils/exceptions/http.exception';
 import Controller from '../../utils/interfaces/controller.interface';
@@ -24,6 +25,12 @@ class UserController implements Controller {
             `${this.path}/login`,
             validationMiddleware(validation.login),
             this.login
+        );
+        this.router.post(
+            `${this.path}/update`,
+            validationMiddleware(validation.updateUser),
+            authenticatedMiddleware,
+            this.update
         );
     }
 
@@ -61,6 +68,26 @@ class UserController implements Controller {
         }
     }
 
+    private update = async (
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<Response | void> => {
+        try {
+            const { body: { name, lastName, location, email }, user: { userId } } = req;
+            const userUpdated = await this.UserService.updateUser(
+                userId,
+                name,
+                lastName,
+                location,
+                email
+            );
+            res.status(StatusCodes.OK).json(userUpdated);
+
+        } catch (error) {
+            next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
+        }
+    }
 }
 
 export default UserController;

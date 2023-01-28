@@ -3,7 +3,7 @@ import Joi from 'joi';
 const register = Joi.object({
     name: Joi.string().min(3).max(30).required(),
     lastName: Joi.string().min(3).max(30).required(),
-    location: Joi.string().min(3).max(30).default('TP.HCM'),
+    location: Joi.string().min(3).max(30),
     email: Joi.string().email().required(),
     password: Joi.string().min(3).max(30).required(),
 });
@@ -13,4 +13,11 @@ const login = Joi.object({
     password: Joi.string().min(3).max(30).required(),
 });
 
-export default { register, login };
+const updateUser = Joi.object({
+    name: Joi.string().min(3).max(30).required(),
+    lastName: Joi.string().min(3).max(30).required(),
+    location: Joi.string().min(3).max(30),
+    email: Joi.string().email().required(),
+})
+
+export default { register, login, updateUser };

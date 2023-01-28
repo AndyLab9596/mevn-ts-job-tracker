@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import token from "../../utils/token";
 import { RegisterUser } from "./user.interface";
 import userModel from "./user.model";
@@ -45,7 +46,7 @@ class UserService {
     ): Promise<RegisterUser | Error> {
         try {
             if (!email || !password) throw new Error("Please provide all values !");
-            const userLoggedIn = await this.user.findOne({email}).select('+password');
+            const userLoggedIn = await this.user.findOne({ email }).select('+password');
             if (!userLoggedIn) throw new Error('Invalid Credential');
             const isPasswordCorrect = userLoggedIn.comparePassword(password);
             if (!isPasswordCorrect) throw new Error('Invalid Credential');
@@ -60,6 +61,40 @@ class UserService {
                 token: jwt,
             };
             return userCreated;
+        } catch (error) {
+            throw new Error((error as Error).message)
+        }
+    }
+
+    public async updateUser(
+        userId: Types.ObjectId,
+        name: string,
+        lastName: string,
+        location: string,
+        email: string,
+    ): Promise<RegisterUser | Error> {
+        try {
+            if (!name || !lastName || !email || !location) throw new Error('Please provide all values !');
+            const updatedUser = await this.user.findOne({ _id: userId });
+            if (!updatedUser) throw new Error('User not found');
+            updatedUser.name = name;
+            updatedUser.lastName = lastName;
+            updatedUser.email = email;
+            updatedUser.location = location;
+
+            await updatedUser.save();
+            const jwt = token.createJWT(updatedUser);
+            const userCreated: RegisterUser = {
+                user: {
+                    name: updatedUser.name,
+                    lastName: updatedUser.lastName,
+                    location: updatedUser.location,
+                    email: updatedUser.email,
+                },
+                token: jwt,
+            };
+            return userCreated;
+
         } catch (error) {
             throw new Error((error as Error).message)
         }
