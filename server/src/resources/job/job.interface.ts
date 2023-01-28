@@ -8,3 +8,8 @@ export interface Job extends Document {
     jobLocation: string;
     createdBy: Types.ObjectId
 }
+
+export interface AllJobs {
+    jobs: Job[];
+    totalJobs: number;
+}

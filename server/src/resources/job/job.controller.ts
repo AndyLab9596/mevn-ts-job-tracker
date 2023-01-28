@@ -17,11 +17,14 @@ class JobController implements Controller {
     }
 
     private initialiseRoutes(): void {
-        this.router.post(
-            `${this.path}`,
-            validationMiddleware(validation.createJob),
-            this.createJob
-        )
+        this.router.route(`${this.path}`)
+            .post(
+                validationMiddleware(validation.createJob),
+                this.createJob
+            )
+            .get(
+                this.getAllJob
+            )
     }
 
     private createJob = async (
@@ -37,6 +40,19 @@ class JobController implements Controller {
                 jobObject
             );
             res.status(StatusCodes.CREATED).json(jobCreated);
+        } catch (error) {
+            next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
+        }
+    }
+
+    private getAllJob = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const allJobs = await this.JobService.getAllJob();
+            res.status(StatusCodes.OK).json(allJobs);
         } catch (error) {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
         }
