@@ -6,6 +6,7 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import Controller from './utils/interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
+import authenticatedMiddleware from './middleware/authenticated.middleware';
 
 class App {
     public express: Application;
@@ -38,7 +39,11 @@ class App {
 
     private initialiseControllers(controller: Controller[]): void {
         controller.forEach((controller: Controller) => {
-            this.express.use('/api', controller.router);
+            if (controller.path !== '/users') {
+                this.express.use('/api', authenticatedMiddleware, controller.router);
+            } else {
+                this.express.use('/api', controller.router);
+            }
         })
     }
 
