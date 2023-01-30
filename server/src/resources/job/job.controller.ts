@@ -1,11 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 import { Router, Request, Response, NextFunction } from "express";
 import Controller from "../../utils/interfaces/controller.interface";
-import { Job } from "./job.interface";
+import { Job, SortQuery } from "./job.interface";
 import JobService from "./job.service";
 import HttpException from '../../utils/exceptions/http.exception';
 import validation from './job.validation';
 import validationMiddleware from '../../middleware/validation.middleware';
+import { Types } from 'mongoose';
 
 class JobController implements Controller {
     public path = '/job';
@@ -54,12 +55,22 @@ class JobController implements Controller {
     }
 
     private getAllJob = async (
-        _req: Request,
+        req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
+        const { status, jobType, sort, search, page, limit } = req.query;
+        const createdBy = req.user.userId;
         try {
-            const allJobs = await this.JobService.getAllJob();
+            const allJobs = await this.JobService.getAllJob(
+                status as Job['status'],
+                jobType as Job['jobType'],
+                sort as SortQuery,
+                search as string,
+                page as string,
+                limit as string,
+                createdBy as Types.ObjectId
+            );
             res.status(StatusCodes.OK).json(allJobs);
         } catch (error) {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
