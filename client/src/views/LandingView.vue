@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import JobifyLogo from "@/components/svg/JobifyLogo.vue";
-import LandingImg from "@/components/svg/LandingImg.vue";
+import JobifyLogo from '@/components/svg/JobifyLogo.vue';
+import LandingImg from '@/components/svg/LandingImg.vue';
 </script>
 
 <style scoped></style>
