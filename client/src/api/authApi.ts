@@ -10,17 +10,17 @@ const authApi = {
   register(
     payload: Omit<IRegisterInfo, 'confirmedPassword'>,
   ): Promise<IAuthInfo> {
-    const url = '/auth/register';
+    const url = '/users/register';
     return axiosClient.post(url, payload);
   },
 
   login(payload: ILoginInfo): Promise<IAuthInfo> {
-    const url = '/auth/login';
+    const url = '/users/login';
     return axiosClient.post(url, payload);
   },
 
   updateUser(payload: IUserInfo): Promise<IAuthInfo> {
-    const url = `/auth/update`;
+    const url = `/users/update`;
     return axiosClient.patch(url, payload);
   },
 };

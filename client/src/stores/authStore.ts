@@ -9,7 +9,7 @@ import { extractExpirationDate } from '@/utils/helper-functions';
 import { defineStore } from 'pinia';
 import { useGlobalStore } from './globalStore';
 
-let timer: number | undefined;
+let timer: NodeJS.Timeout | undefined;
 const LOGOUT_BEFORE_EXP = 300000; // 5 MINUTES;
 
 export const useAuthStore = defineStore('storeAuth', {
@@ -73,7 +73,11 @@ export const useAuthStore = defineStore('storeAuth', {
             password: registerInfo.password,
           });
         }
-        globalStore.displayAlert('User created ! Redirecting...', 'success');
+        const displayAlertText =
+          payload.authType === 'login'
+            ? 'Login successfully ! Redirecting...'
+            : 'User created ! Redirecting...';
+        globalStore.displayAlert(displayAlertText, 'success');
         this.setUser(res);
         setTimeout(() => {
           globalStore.hideAlert();
