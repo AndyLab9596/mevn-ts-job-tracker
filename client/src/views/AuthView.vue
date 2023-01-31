@@ -2,14 +2,14 @@
   <section class="grid items-center min-h-screen">
     <vee-form
       @submit="handlSubmitAuth"
-      class="max-w-[400px] w-[90vw] mx-auto my-12 px-8 py-10 bg-white rounded-lg border-t-[5px] border-t-cyan-500 transition duration-300 ease-in shadow-lg hover:shadow-2xl"
+      class="max-w-[400px] w-[90vw] mx-auto px-8 py-8 bg-white rounded-lg border-t-[5px] border-t-cyan-500 transition duration-300 ease-in shadow-lg hover:shadow-2xl"
       :validation-schema="validationSchema"
     >
-      <JobifyLogo class-props="h-[50px] block mx-auto mt-0 mb-5" />
-      <h3 class="text-3xl text-center mb-5">
+      <JobifyLogo class-props="h-[50px] block mx-auto mt-0 mb-3" />
+      <h3 class="text-3xl text-center mb-2">
         {{ isRegisterMode ? 'Register' : 'Login' }}
       </h3>
-      <!-- <BaseAlert /> -->
+      <BaseAlert />
       <BaseInputFormField
         label="Name"
         type="text"

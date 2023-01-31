@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4 block">
+  <div class="mb-2 block">
     <label :htmlFor="name" class="block text-lg mb-2 capitalize tracking-wide">
       {{ label }}
     </label>
