@@ -19,7 +19,7 @@
       <BaseInputFormField
         label="Last Name"
         type="text"
-        name="last_name"
+        name="lastName"
         v-if="isRegisterMode"
       />
       <BaseInputFormField
@@ -36,7 +36,7 @@
         name="confirm_password"
         v-if="isRegisterMode"
       />
-      <BaseButton type="submit" class="mt-8">
+      <BaseButton type="submit" class="mt-8" :isDisabled="!!isInSubmission">
         {{ isRegisterMode ? 'Register' : 'Login' }}
       </BaseButton>
       <p class="text-center text-lg mt-4 mx-0 font-semibold">
@@ -57,12 +57,24 @@
 import { ref, computed } from 'vue';
 import JobifyLogo from '@/components/svg/JobifyLogo.vue';
 import type { ILoginInfo, IRegisterInfo } from '@/types/Form.type';
+import { useAuthStore } from '@/stores/authStore';
+import type { IAuthActionProps } from '@/types/Store.type';
 
-const handlSubmitAuth = (values: IRegisterInfo | ILoginInfo) => {
-  console.log(values);
+const authStore = useAuthStore();
+
+const isInSubmission = ref(false);
+const isRegisterMode = ref(false);
+
+const handlSubmitAuth = async (values: IRegisterInfo | ILoginInfo) => {
+  isInSubmission.value = true;
+  const payload: IAuthActionProps = {
+    authInfo: values,
+    authType: isRegisterMode.value === true ? 'register' : 'login',
+  };
+  await authStore.authAction(payload);
+  isInSubmission.value = false;
 };
 
-const isRegisterMode = ref(false);
 const validationSchema = computed(() => {
   if (isRegisterMode.value === false) {
     return {
@@ -75,7 +87,7 @@ const validationSchema = computed(() => {
       password: 'required|min:3|max:30',
       confirm_password: 'password_mismatch:@password',
       name: 'required|min:3|max:100|alpha_spaces',
-      last_name: 'required|min:3|max:30|alpha_spaces',
+      lastName: 'required|min:3|max:30|alpha_spaces',
       location: 'required|min:3|max:100|alpha_spaces',
     };
   }

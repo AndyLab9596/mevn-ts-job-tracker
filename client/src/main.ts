@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, markRaw } from 'vue';
 import { createPinia } from 'pinia';
 
 import App from './App.vue';
@@ -11,6 +11,11 @@ import BaseInputFormField from '@/components/ui/BaseInputFormField.vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
 import BaseAlert from './components/ui/BaseAlert.vue';
 import VueFeather from 'vue-feather';
+
+const pinia = createPinia();
+pinia.use(({ store }) => {
+  store.router = markRaw(router);
+});
 
 const app = createApp(App);
 

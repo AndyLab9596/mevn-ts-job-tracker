@@ -1,11 +1,23 @@
 interface ILoginInfo {
-  name: string;
+  email: string;
   password: string;
 }
 
 interface IRegisterInfo extends ILoginInfo {
   confirmedPassword: string;
-  email: string;
+  name: string;
+  lastName: string;
+  location: string;
 }
 
-export type { ILoginInfo, IRegisterInfo };
+type IUserInfo = Pick<
+  IRegisterInfo,
+  'name' | 'lastName' | 'location' | 'email'
+>;
+
+interface IAuthInfo {
+  user: IUserInfo;
+  token: string;
+}
+
+export type { ILoginInfo, IRegisterInfo, IUserInfo, IAuthInfo };

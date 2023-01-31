@@ -1,12 +1,5 @@
+import type { IGlobalStoreState } from '@/types/Store.type';
 import { defineStore } from 'pinia';
-
-interface IGlobalStoreState {
-  isLoading: boolean;
-  showAlert: boolean;
-  alertText: string;
-  alertType: 'success' | 'danger';
-  showSideBar: boolean;
-}
 
 export const useGlobalStore = defineStore('storeGlobal', {
   state: () => {
@@ -15,12 +8,21 @@ export const useGlobalStore = defineStore('storeGlobal', {
       showAlert: false,
       alertText: '',
       alertType: 'success',
+      // UI
       showSideBar: true,
     } as IGlobalStoreState;
   },
   actions: {
     toggleSideBar() {
       this.showSideBar = !this.showSideBar;
+    },
+    hideAlert() {
+      this.showAlert = false;
+    },
+    displayAlert(alertText: string, alertType: IGlobalStoreState['alertType']) {
+      this.showAlert = true;
+      this.alertText = alertText;
+      this.alertType = alertType;
     },
   },
   getters: {
