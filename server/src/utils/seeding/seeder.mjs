@@ -54,7 +54,6 @@ const start = async () => {
       createdBy: USER_ID
       }
     });
-    console.log('createdProducts', createdProducts);
     await mongoose.model('Job', JobSchema).create(createdProducts);
     console.log('Success!!!');
     process.exit(0);
