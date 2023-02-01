@@ -9,7 +9,7 @@ const JobSchema = new Schema({
     },
     position: {
         type: String,
-        maxLength: 20,
+        maxLength: 50,
         required: [true, 'Please provide position !'],
     },
     status: {

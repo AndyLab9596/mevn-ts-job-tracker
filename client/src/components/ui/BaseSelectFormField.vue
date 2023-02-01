@@ -17,6 +17,7 @@
         {{ option }}
       </option>
     </vee-field>
+    <ErrorMessage class="text-red-600" :name="name" />
   </div>
 </template>
 

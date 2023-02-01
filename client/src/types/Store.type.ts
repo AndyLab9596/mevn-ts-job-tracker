@@ -1,4 +1,5 @@
 import type { ILoginInfo, IRegisterInfo, IUserInfo } from './Form.type';
+import type { ICreateJob, TSearchJobType, TSearchStatus } from './Job.type';
 
 interface IGlobalStoreState {
   isLoading: boolean;
@@ -25,9 +26,15 @@ interface IUserInfoSaveLocal {
   expirationDate: number;
 }
 
+interface IJobStoreState {
+  isEditing: boolean;
+  editJobId: string;
+}
+
 export type {
   IGlobalStoreState,
   IAuthActionProps,
   IAuthStoreState,
   IUserInfoSaveLocal,
+  IJobStoreState,
 };

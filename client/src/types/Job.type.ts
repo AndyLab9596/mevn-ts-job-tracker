@@ -16,8 +16,8 @@ type TSort = TSortOptions[number];
 interface ICreateJob {
   position: string;
   company: string;
-  jobType: TSearchJobTypeOptions;
-  status: TSearchStatusOptions;
+  jobType: TSearchJobType;
+  status: TSearchStatus;
   jobLocation: string;
 }
 
