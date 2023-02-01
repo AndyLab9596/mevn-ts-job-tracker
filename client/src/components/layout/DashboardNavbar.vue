@@ -20,7 +20,7 @@
           class="flex justify-center items-center shadow-xl hover:bg-cyan-700 bg-cyan-500 text-white border-transparent rounded-md py-1 px-4 space-x-2 transition duration-300 ease-in-out"
         >
           <vue-feather size="18" type="user-check"></vue-feather>
-          <span>Andy</span>
+          <span>{{ userFullName }}</span>
           <vue-feather size="18" type="corner-right-down"></vue-feather>
         </button>
         <button
@@ -37,11 +37,15 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore';
 import { useGlobalStore } from '@/stores/globalStore';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const globalStore = useGlobalStore();
 const authStore = useAuthStore();
+const userFullName = computed(
+  () => authStore.user?.lastName + ' ' + authStore.user?.name,
+);
 const logout = () => {
   authStore.logout();
   router.push('/landing');
