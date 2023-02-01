@@ -21,4 +21,37 @@ interface ICreateJob {
   jobLocation: string;
 }
 
-export type { ICreateJob, TSearchJobType, TSearchStatus, TSort };
+interface IJobInfo extends ICreateJob {
+  createdAt: Date;
+  _id: string;
+}
+
+interface IAllJobInfo {
+  jobs: IJobInfo[];
+  totalJobs: number;
+  numOfPages: number;
+}
+
+interface IGetJobQueryObject {
+  page: number;
+  searchStatus: TSearchStatus;
+  searchType: TSearchJobType;
+  search: string;
+  sort: TSort;
+}
+
+interface IUpdateJobParams {
+  job: IJobInfo;
+  jobId: string;
+}
+
+export type {
+  ICreateJob,
+  TSearchJobType,
+  TSearchStatus,
+  TSort,
+  IJobInfo,
+  IAllJobInfo,
+  IGetJobQueryObject,
+  IUpdateJobParams,
+};

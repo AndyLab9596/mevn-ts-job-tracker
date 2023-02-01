@@ -1,6 +1,6 @@
 import jobApi from '@/api/jobApi';
 import type IError from '@/types/Error.type';
-import type { ICreateJob } from '@/types/Job.type';
+import type { ICreateJob, IJobInfo } from '@/types/Job.type';
 import type { IJobStoreState } from '@/types/Store.type';
 import { defineStore } from 'pinia';
 import { useGlobalStore } from '@/stores/globalStore';
@@ -8,16 +8,31 @@ import { useGlobalStore } from '@/stores/globalStore';
 export const useJobStore = defineStore('jobGlobal', {
   state: () => {
     return {
+      // Create & Edit
       isEditing: false,
       editJobId: '',
+      editJobValues: null,
+      // All Jobs & Pagination
+      jobs: [],
+      numOfPages: 1,
+      page: 1,
+      totalJobs: 0,
+      // Query Object Filters
+      search: '',
+      searchStatus: 'all',
+      searchType: 'all',
+      sort: 'a-z',
     } as IJobStoreState;
   },
   actions: {
-    async setupJob(payload: ICreateJob) {
+    async setupJob(payload: IJobInfo | ICreateJob) {
       const globalStore = useGlobalStore();
       try {
         if (this.isEditing) {
-          // Editing
+          await jobApi.updateJob({
+            job: payload as IJobInfo,
+            jobId: this.editJobId,
+          });
         } else {
           await jobApi.createJob(payload);
         }
@@ -33,6 +48,45 @@ export const useJobStore = defineStore('jobGlobal', {
           globalStore.hideAlert();
         }, 2000);
       }
+    },
+    async getAllJob() {
+      const globalStore = useGlobalStore();
+      globalStore.isLoading = true;
+      try {
+        const { jobs, numOfPages, totalJobs } = await jobApi.getAllJob({
+          page: this.page,
+          search: this.search,
+          searchStatus: this.searchStatus,
+          searchType: this.searchType,
+          sort: this.sort,
+        });
+        this.jobs = jobs;
+        this.numOfPages = numOfPages;
+        this.totalJobs = totalJobs;
+      } catch (error) {
+        globalStore.displayAlert((error as IError).message, 'danger');
+      } finally {
+        globalStore.isLoading = false;
+        setTimeout(() => {
+          globalStore.hideAlert();
+        }, 1000);
+      }
+    },
+    editJob(id: string) {
+      const globalStore = useGlobalStore();
+      this.isEditing = true;
+      this.editJobId = id;
+
+      const editedJob = this.jobs.find((job: IJobInfo) => job._id === id);
+      this.editJobValues = editedJob as IJobInfo;
+      if (!editedJob) {
+        globalStore.displayAlert('No job was found', 'danger');
+      }
+    },
+    resetJobEdit() {
+      this.isEditing = false;
+      this.editJobId = '';
+      this.editJobValues = null;
     },
   },
   getters: {},

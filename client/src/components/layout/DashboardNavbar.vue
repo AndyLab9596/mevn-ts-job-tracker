@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="h-20 flex items-center justify-center bg-white shadow-lg sticky top-0"
+    class="h-20 flex items-center justify-center bg-white shadow-lg sticky top-0 z-10"
   >
     <div class="w-[90%] mx-auto flex justify-between items-center">
       <button

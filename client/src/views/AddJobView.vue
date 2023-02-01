@@ -1,6 +1,11 @@
 <template>
   <DashboardContent :loadingState="inSubmission">
-    <vee-form @submit="handleSubmit" :validation-schema="validationSchema">
+    <vee-form
+      @submit="handleSubmit"
+      :validation-schema="validationSchema"
+      :initial-values="initialValues"
+      v-slot="{ handleReset }"
+    >
       <h3 class="text-3xl mb-4">Add Job</h3>
       <BaseAlert />
       <div
@@ -33,9 +38,10 @@
             Submit
           </BaseButton>
           <BaseButton
-            type="reset"
+            type="button"
             class="w-2/4 bg-gray-500 hover:bg-gray-700"
             :isDisabled="inSubmission"
+            @click="handleClearForm(handleReset)"
           >
             Clear
           </BaseButton>
@@ -46,13 +52,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import type { ICreateJob } from '@/types/Job.type';
 import { searchJobTypeOptions, searchStatusOptions } from '@/utils/constants';
 import type { FormContext } from 'vee-validate';
 import { useJobStore } from '@/stores/jobStore';
 
 const jobStore = useJobStore();
+const initialValues = computed(() => {
+  if (jobStore.editJobValues) return jobStore.editJobValues;
+  else
+    return {
+      position: '',
+      company: '',
+      status: '',
+      jobType: '',
+      jobLocation: '',
+    };
+});
 const inSubmission = ref(false);
 const validationSchema = {
   position: 'required|min:3|max:50',
@@ -62,11 +79,22 @@ const validationSchema = {
   jobLocation: 'required|min:3|max:50',
 };
 
+const handleClearForm = (clearForm: FormContext['resetForm']) => {
+  clearForm();
+  if (jobStore.isEditing) {
+    jobStore.resetJobEdit();
+  }
+};
+
 const handleSubmit = async (values: ICreateJob, actions: FormContext) => {
+  console.log(values);
   inSubmission.value = true;
   await jobStore.setupJob(values);
   inSubmission.value = false;
   actions.resetForm();
+  if (jobStore.isEditing) {
+    jobStore.resetJobEdit();
+  }
 };
 </script>
 
