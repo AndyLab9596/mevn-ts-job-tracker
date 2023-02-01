@@ -1,5 +1,6 @@
+import { useAuthStore } from '@/stores/authStore';
 import type IError from '@/types/Error.type';
-import axios from 'axios';
+import axios, { type AxiosRequestHeaders } from 'axios';
 
 const axiosClient = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -11,6 +12,10 @@ const axiosClient = axios.create({
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
+    const authStore = useAuthStore();
+    (
+      config.headers as AxiosRequestHeaders
+    ).Authorization = `Bearer ${authStore.token}`;
     // Do something before request is sent
     return config;
   },

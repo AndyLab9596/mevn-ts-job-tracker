@@ -1,6 +1,6 @@
 import authApi from '@/api/authApi';
 import type IError from '@/types/Error.type';
-import type { IAuthInfo, IRegisterInfo } from '@/types/Form.type';
+import type { IAuthInfo, IRegisterInfo, IUserInfo } from '@/types/Form.type';
 import type {
   IAuthActionProps,
   IAuthStoreState,
@@ -84,7 +84,6 @@ export const useAuthStore = defineStore('storeAuth', {
           this.router.replace({ name: 'home' });
         }, 1000);
       } catch (error) {
-        console.log(error);
         globalStore.displayAlert((error as IError).message, 'danger');
       } finally {
         setTimeout(() => {
@@ -115,6 +114,21 @@ export const useAuthStore = defineStore('storeAuth', {
       }, expiresIn);
       if (!!user && !!token) {
         this.setUser({ user, token });
+      }
+    },
+    async updateUser(payload: IUserInfo) {
+      console.log('payload', payload);
+      const globalStore = useGlobalStore();
+      try {
+        const updatedUser = await authApi.updateUser(payload);
+        this.setUser(updatedUser);
+        globalStore.displayAlert('Updated successfully !', 'success');
+      } catch (error) {
+        globalStore.displayAlert((error as IError).message, 'danger');
+      } finally {
+        setTimeout(() => {
+          globalStore.hideAlert();
+        }, 1000);
       }
     },
   },

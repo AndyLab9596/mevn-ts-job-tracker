@@ -26,7 +26,7 @@ class UserController implements Controller {
             validationMiddleware(validation.login),
             this.login
         );
-        this.router.post(
+        this.router.patch(
             `${this.path}/update`,
             validationMiddleware(validation.updateUser),
             authenticatedMiddleware,
