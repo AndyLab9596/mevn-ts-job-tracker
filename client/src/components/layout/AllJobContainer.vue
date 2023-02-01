@@ -2,13 +2,7 @@
   <section
     class="rounded-lg w-full bg-white pt-12 pb-16 px-8 grid grid-cols-1 xl:grid-cols-2 gap-4 relative"
   >
-    <!-- <div
-      v-if="globalStore.isLoading"
-      class="rounded-lg bg-white absolute left-2/4 py-8"
-    >
-      <BaseSpinner />
-    </div> -->
-    <template v-if="true">
+    <template v-if="globalStore.isLoading">
       <BaseCardSkeleton v-for="(_, index) in 6" :key="index" />
     </template>
     <div v-else-if="jobStore.totalJobs < 1 && !globalStore.isLoading">
