@@ -1,3 +1,4 @@
+import type IError from '@/types/Error.type';
 import axios from 'axios';
 
 const axiosClient = axios.create({
@@ -27,9 +28,10 @@ axiosClient.interceptors.response.use(
     return response.data;
   },
   function (error) {
+    const errorResponse: IError = error.response.data;
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    return Promise.reject(error);
+    return Promise.reject(errorResponse);
   },
 );
 
