@@ -1,5 +1,5 @@
 <template>
-  <DashboardContent :loadingState="globalStore.isLoading">
+  <DashboardContent :loadingState="inSubmission">
     <vee-form
       @submit="handleSubmit"
       :initial-values="initialValues"
@@ -14,7 +14,7 @@
         <BaseInputFormField label="Last Name" type="text" name="lastName" />
         <BaseInputFormField label="Email" type="email" name="email" />
         <BaseInputFormField label="Location" type="text" name="location" />
-        <div class="mt-[18px]">
+        <div class="mb-2 block mt-[34px]">
           <BaseButton
             type="submit"
             :isDisabled="inSubmission"
@@ -29,12 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useGlobalStore } from '@/stores/globalStore';
-import type { IUserInfo } from '@/types/Form.type';
 import { useAuthStore } from '@/stores/authStore';
+import type { IUserInfo } from '@/types/Form.type';
+import { computed, ref } from 'vue';
 
-const globalStore = useGlobalStore();
 const authStore = useAuthStore();
 const inSubmission = ref(false);
 
@@ -49,8 +47,10 @@ const initialValues = computed(() => {
   return authStore.user;
 });
 
-const handleSubmit = (values: IUserInfo) => {
-  console.log(values);
+const handleSubmit = async (values: IUserInfo) => {
+  inSubmission.value = true;
+  await authStore.updateUser(values);
+  inSubmission.value = false;
 };
 </script>
 
