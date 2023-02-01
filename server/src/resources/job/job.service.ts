@@ -68,7 +68,7 @@ class JobService {
 
             // setup pagination
             const pageQuery = Number(page) || 1;
-            const limitQuery = Number(limit) || 10;
+            const limitQuery = Number(limit) || 6;
             const skip = (pageQuery - 1) * limitQuery;
 
             result = result.skip(skip).limit(limitQuery);

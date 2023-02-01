@@ -2,12 +2,15 @@
   <section
     class="rounded-lg w-full bg-white pt-12 pb-16 px-8 grid grid-cols-1 xl:grid-cols-2 gap-4 relative"
   >
-    <div
+    <!-- <div
       v-if="globalStore.isLoading"
       class="rounded-lg bg-white absolute left-2/4 py-8"
     >
       <BaseSpinner />
-    </div>
+    </div> -->
+    <template v-if="true">
+      <BaseCardSkeleton v-for="(_, index) in 6" :key="index" />
+    </template>
     <div v-else-if="jobStore.totalJobs < 1 && !globalStore.isLoading">
       <h3>No job to display</h3>
     </div>
@@ -24,6 +27,7 @@
 import { useGlobalStore } from '@/stores/globalStore';
 import { useJobStore } from '@/stores/jobStore';
 import BaseCard from '../ui/BaseCard.vue';
+import BaseCardSkeleton from '../ui/BaseCardSkeleton.vue';
 import BasePagination from '../ui/BasePagination.vue';
 
 const globalStore = useGlobalStore();

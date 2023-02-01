@@ -18,12 +18,33 @@
 <script setup lang="ts">
 import AllJobContainer from '@/components/layout/AllJobContainer.vue';
 import { useJobStore } from '@/stores/jobStore';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const jobStore = useJobStore();
+const { page, search, searchStatus, searchType, sort } = storeToRefs(jobStore);
 
 onMounted(() => {
   jobStore.getAllJob();
+});
+
+watch([page, searchStatus, searchType, sort], async () => {
+  await jobStore.getAllJob();
+});
+
+let timerId: number | undefined;
+
+watch(search, () => {
+  if (timerId) {
+    clearTimeout(timerId);
+  }
+  timerId = setTimeout(async () => {
+    try {
+      await jobStore.getAllJob();
+    } catch (error) {
+      console.log(error);
+    }
+  }, 500);
 });
 </script>
 

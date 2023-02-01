@@ -35,13 +35,12 @@ import { useJobStore } from '@/stores/jobStore';
 
 const jobStore = useJobStore();
 const handleNextPage = () => {
-  // jobStore.nextPage()
+  jobStore.nextPage();
 };
 const handlePreviousPage = () => {
-  // jobStore.previousPage()
+  jobStore.previousPage();
 };
 const handleChangePage = (page: number) => {
-  console.log('page', page);
-  // jobStore.handleChangePage(n)
+  jobStore.handleChangePage(page);
 };
 </script>
