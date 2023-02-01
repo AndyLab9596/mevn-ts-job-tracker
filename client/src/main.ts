@@ -13,6 +13,7 @@ import BaseAlert from './components/ui/BaseAlert.vue';
 import VueFeather from 'vue-feather';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
 import DashboardContent from './components/layout/DashboardContent.vue';
+import BaseSelectFormField from './components/ui/BaseSelectFormField.vue';
 
 const pinia = createPinia();
 pinia.use(({ store }) => {
@@ -27,6 +28,7 @@ app.use(VeeValidatePlugin);
 app.component(VueFeather.name, VueFeather);
 app.component('BaseButtonLink', BaseButtonLink);
 app.component('BaseInputFormField', BaseInputFormField);
+app.component('BaseSelectFormField', BaseSelectFormField);
 app.component('BaseButton', BaseButton);
 app.component('BaseAlert', BaseAlert);
 app.component('BaseSpinner', BaseSpinner);
