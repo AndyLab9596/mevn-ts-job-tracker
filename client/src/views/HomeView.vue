@@ -7,7 +7,7 @@
         :class="{ 'w-[85%]': globalStore.showSideBar }"
       >
         <DashboardNavbar />
-        <div class="w-[90%] mx-auto my-0 py-8 px-0">
+        <div class="w-full mx-auto my-0 py-8 px-0">
           <RouterView />
         </div>
       </div>
