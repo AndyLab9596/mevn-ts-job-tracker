@@ -35,12 +35,15 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/authStore';
 import { useGlobalStore } from '@/stores/globalStore';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const globalStore = useGlobalStore();
+const authStore = useAuthStore();
 const logout = () => {
+  authStore.logout();
   router.push('/landing');
 };
 </script>

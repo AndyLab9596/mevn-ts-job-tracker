@@ -81,7 +81,7 @@ export const useAuthStore = defineStore('storeAuth', {
         this.setUser(res);
         setTimeout(() => {
           globalStore.hideAlert();
-          this.router.push({ name: 'home' });
+          this.router.replace({ name: 'home' });
         }, 1000);
       } catch (error) {
         console.log(error);
