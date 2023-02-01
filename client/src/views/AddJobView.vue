@@ -64,9 +64,9 @@ const validationSchema = {
 
 const handleSubmit = async (values: ICreateJob, actions: FormContext) => {
   inSubmission.value = true;
-  actions.resetForm();
   await jobStore.setupJob(values);
   inSubmission.value = false;
+  actions.resetForm();
 };
 </script>
 
