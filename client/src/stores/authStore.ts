@@ -1,4 +1,5 @@
 import authApi from '@/api/authApi';
+import type IError from '@/types/Error.type';
 import type { IAuthInfo, IRegisterInfo } from '@/types/Form.type';
 import type {
   IAuthActionProps,
@@ -9,7 +10,7 @@ import { extractExpirationDate } from '@/utils/helper-functions';
 import { defineStore } from 'pinia';
 import { useGlobalStore } from './globalStore';
 
-let timer: NodeJS.Timeout | undefined;
+let timer: undefined | number;
 const LOGOUT_BEFORE_EXP = 300000; // 5 MINUTES;
 
 export const useAuthStore = defineStore('storeAuth', {
@@ -55,7 +56,6 @@ export const useAuthStore = defineStore('storeAuth', {
     },
     async authAction(payload: IAuthActionProps) {
       const globalStore = useGlobalStore();
-      globalStore.displayAlert('Loading...', 'success');
       try {
         let res: IAuthInfo;
         if (payload.authType === 'login') {
@@ -81,14 +81,15 @@ export const useAuthStore = defineStore('storeAuth', {
         this.setUser(res);
         setTimeout(() => {
           globalStore.hideAlert();
-          this.router.replace('/');
-        }, 1500);
+          this.router.push({ name: 'home' });
+        }, 1000);
       } catch (error) {
-        globalStore.displayAlert((error as Error).message, 'danger');
+        console.log(error);
+        globalStore.displayAlert((error as IError).message, 'danger');
       } finally {
         setTimeout(() => {
           globalStore.hideAlert();
-        }, 2000);
+        }, 1000);
       }
     },
     logout() {

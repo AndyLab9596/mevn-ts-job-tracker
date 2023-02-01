@@ -36,8 +36,13 @@
         name="confirm_password"
         v-if="isRegisterMode"
       />
-      <BaseButton type="submit" class="mt-8" :isDisabled="!!isInSubmission">
-        {{ isRegisterMode ? 'Register' : 'Login' }}
+      <BaseButton
+        type="submit"
+        class="mt-8"
+        :isDisabled="!!isInSubmission"
+        :isLoading="!!isInSubmission"
+      >
+        {{ submitButtonTitle }}
       </BaseButton>
       <p class="text-center text-lg mt-4 mx-0 font-semibold">
         {{ isRegisterMode ? 'Already a member?' : 'Not a member yet?' }}
@@ -64,6 +69,14 @@ const authStore = useAuthStore();
 
 const isInSubmission = ref(false);
 const isRegisterMode = ref(false);
+
+const submitButtonTitle = computed(() => {
+  if (isInSubmission.value) {
+    return 'Processing...';
+  } else {
+    return isRegisterMode.value ? 'Register' : 'Login';
+  }
+});
 
 const handlSubmitAuth = async (values: IRegisterInfo | ILoginInfo) => {
   isInSubmission.value = true;
