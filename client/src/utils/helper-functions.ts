@@ -6,9 +6,9 @@ const extractExpirationDate = (token: string) => {
 };
 
 const createDebounce = () => {
-  let timeout: null | number = null;
+  let timeout: any = null;
   return function (fnc: Function, delayMs: number) {
-    clearTimeout(timeout as number);
+    clearTimeout(timeout);
     timeout = setTimeout(() => {
       fnc();
     }, delayMs || 500);
