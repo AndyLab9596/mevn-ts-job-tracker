@@ -5,4 +5,14 @@ const extractExpirationDate = (token: string) => {
   return exp;
 };
 
-export { extractExpirationDate };
+const createDebounce = () => {
+  let timeout: null | number = null;
+  return function (fnc: Function, delayMs: number) {
+    clearTimeout(timeout as number);
+    timeout = setTimeout(() => {
+      fnc();
+    }, delayMs || 500);
+  };
+};
+
+export { extractExpirationDate, createDebounce };

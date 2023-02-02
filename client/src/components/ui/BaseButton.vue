@@ -2,7 +2,7 @@
   <button
     :type="type"
     class="flex justify-center items-center text-base text-white p-[6px] bg-cyan-500 hover:bg-cyan-700 border-transparent rounded-md capitalize w-full shadow-lg hover:shadow-2xl transition duration-300 ease-in-out"
-    :class="{ 'bg-red-500 hover:bg-red-700 text-white': isDangerouseStyle }"
+    :class="{ 'bg-red-400 hover:bg-red-600 text-white': isDangerouseStyle }"
     :disabled="isDisabled"
   >
     <slot></slot>

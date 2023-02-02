@@ -5,7 +5,7 @@
         </BaseDialog> -->
 
     <div>
-      <!-- <SearchJobContainer /> -->
+      <SearchJobContainer />
       <h4 class="my-4 text-2xl font-semibold">
         {{ jobStore.totalJobs }} Job{{ jobStore.totalJobs > 1 ? 's' : '' }}
         Found
@@ -20,6 +20,7 @@ import AllJobContainer from '@/components/layout/AllJobContainer.vue';
 import { useJobStore } from '@/stores/jobStore';
 import { onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import SearchJobContainer from '@/components/layout/SearchJobContainer.vue';
 
 const jobStore = useJobStore();
 const { page, search, searchStatus, searchType, sort } = storeToRefs(jobStore);
@@ -44,7 +45,7 @@ watch(search, () => {
     } catch (error) {
       console.log(error);
     }
-  }, 500);
+  }, 1000);
 });
 </script>
 

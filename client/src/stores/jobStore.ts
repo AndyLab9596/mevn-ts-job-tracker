@@ -101,6 +101,12 @@ export const useJobStore = defineStore('jobGlobal', {
     handleChangePage(page: number) {
       this.page = page;
     },
+    changeJobSearch<T extends keyof IJobStoreState>(
+      key: T,
+      value: IJobStoreState[T],
+    ) {
+      this.$state[key] = value;
+    },
   },
   getters: {},
 });
