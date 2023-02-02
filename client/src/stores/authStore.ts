@@ -10,7 +10,7 @@ import { extractExpirationDate } from '@/utils/helper-functions';
 import { defineStore } from 'pinia';
 import { useGlobalStore } from './globalStore';
 
-let timer: undefined | number;
+let timer: any;
 const LOGOUT_BEFORE_EXP = 300000; // 5 MINUTES;
 
 export const useAuthStore = defineStore('storeAuth', {
