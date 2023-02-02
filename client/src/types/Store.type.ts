@@ -1,5 +1,5 @@
 import type { ILoginInfo, IRegisterInfo, IUserInfo } from './Form.type';
-import type { IGetJobQueryObject, IJobInfo } from './Job.type';
+import type { IGetJobQueryObject, IJobInfo, IMonthlyApp } from './Job.type';
 
 interface IGlobalStoreState {
   isLoading: boolean;
@@ -33,6 +33,10 @@ interface IJobStoreState extends IGetJobQueryObject {
   jobs: IJobInfo[];
   totalJobs: number;
   numOfPages: number;
+  statPending: number;
+  statInterview: number;
+  statDeclined: number;
+  monthlyApplications: IMonthlyApp[];
 }
 
 export type {

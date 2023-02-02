@@ -3,6 +3,7 @@ import type {
   IAllJobInfo,
   IGetJobQueryObject,
   IUpdateJobParams,
+  IStats,
 } from '@/types/Job.type';
 import axiosClient from '@/api/apiClient';
 
@@ -31,6 +32,10 @@ const jobApi = {
   deleteJob(jobId: string) {
     const url = `/job/${jobId}`;
     return axiosClient.delete(url);
+  },
+  getJobStats(): Promise<IStats> {
+    const url = '/job/stats';
+    return axiosClient.get(url);
   },
 };
 

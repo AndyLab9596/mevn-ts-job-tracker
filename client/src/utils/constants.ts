@@ -6,6 +6,8 @@ const searchJobTypeOptions = [
   'internship',
 ] as const;
 
+const stats = ['pending', 'interview', 'declined'] as const;
+
 const searchStatusOptions = [
   'all',
   'pending',
@@ -15,4 +17,4 @@ const searchStatusOptions = [
 
 const sortOptions = ['latest', 'oldest', 'a-z', 'z-a'] as const;
 
-export { searchJobTypeOptions, searchStatusOptions, sortOptions };
+export { searchJobTypeOptions, searchStatusOptions, sortOptions, stats };

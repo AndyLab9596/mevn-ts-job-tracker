@@ -33,6 +33,10 @@ class JobController implements Controller {
                 )
                 .delete(
                     this.deleteJob
+                ),
+            this.router.route(`${this.path}/stats`)
+                .get(
+                    this.getStats
                 )
     }
 
@@ -103,6 +107,20 @@ class JobController implements Controller {
             const requestUserId = req.user.userId;
             const message = await this.JobService.deleteJob(jobId, requestUserId);
             res.status(StatusCodes.OK).json({ msg: message });
+        } catch (error) {
+            next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
+        }
+    }
+
+    private getStats = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) : Promise<Response | void> => {
+        try {
+            const requestUserId = req.user.userId;
+            const stats = await this.JobService.showStats(requestUserId);
+            res.status(StatusCodes.OK).json(stats);
         } catch (error) {
             next(new HttpException(StatusCodes.BAD_REQUEST, (error as Error).message))
         }

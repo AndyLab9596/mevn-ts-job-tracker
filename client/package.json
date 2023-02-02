@@ -14,16 +14,19 @@
   "dependencies": {
     "@vee-validate/rules": "^4.7.3",
     "axios": "^1.2.6",
+    "chart.js": "^3.8.0",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "pinia": "^2.0.28",
     "vee-validate": "^4.7.3",
     "vue": "^3.2.45",
+    "vue-chartjs": "^4.1.2",
     "vue-feather": "^2.0.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
+    "@types/chart.js": "^2.9.37",
     "@types/jsdom": "^20.0.1",
     "@types/node": "^18.11.12",
     "@vitejs/plugin-vue": "^4.0.0",

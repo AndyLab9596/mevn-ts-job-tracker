@@ -22,6 +22,11 @@ export const useJobStore = defineStore('jobGlobal', {
       searchStatus: 'all',
       searchType: 'all',
       sort: 'a-z',
+      // Stats
+      statPending: 0,
+      statInterview: 0,
+      statDeclined: 0,
+      monthlyApplications: [],
     } as IJobStoreState;
   },
   actions: {
@@ -114,6 +119,21 @@ export const useJobStore = defineStore('jobGlobal', {
       value: IJobStoreState[T],
     ) {
       this.$state[key] = value;
+    },
+    async getStatsInfo() {
+      const globalStore = useGlobalStore();
+      globalStore.isLoading = true;
+      try {
+        const response = await jobApi.getJobStats();
+        this.statPending = response.defaultStats.pending;
+        this.statDeclined = response.defaultStats.declined;
+        this.statInterview = response.defaultStats.interview;
+        this.monthlyApplications = response.monthlyApplications;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        globalStore.isLoading = false;
+      }
     },
   },
   getters: {

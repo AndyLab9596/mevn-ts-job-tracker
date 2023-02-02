@@ -6,7 +6,7 @@
       >
         <header class="flex items-center justify-between">
           <span class="font-bold text-5xl text-yellow-500">
-            <!-- {{ statPending }} -->
+            {{ statPending }}
           </span>
           <span
             class="w-[70px] h-[60px] bg-yellow-100 flex items-center justify-center rounded-md"
@@ -28,7 +28,7 @@
       >
         <header class="flex items-center justify-between">
           <span class="font-bold text-5xl text-blue-500">
-            <!-- {{ statInterview }} -->
+            {{ statInterview }}
           </span>
           <span
             class="w-[70px] h-[60px] bg-blue-100 flex items-center justify-center rounded-md"
@@ -50,7 +50,7 @@
       >
         <header class="flex items-center justify-between">
           <span class="font-bold text-5xl text-rose-500">
-            <!-- {{ statDeclined }} -->
+            {{ statDeclined }}
           </span>
           <span
             class="w-[70px] h-[60px] bg-rose-100 flex items-center justify-center rounded-md"
@@ -64,13 +64,36 @@
       </article>
     </section>
 
-    <section class="mt-16 p-14">
+    <div v-if="globalStore.isLoading" class="flex justify-center mt-16 p-14">
+      <BaseSpinner />
+    </div>
+    <section v-if="!globalStore.isLoading" class="mt-16 p-14">
       <h4 class="text-center mb-3">Monthly Applications</h4>
-      <!-- <ChartContainer :chartLabelAr="chartLabel" :chartDataAr="chartData" /> -->
+      <ChartContainer :chartLabelAr="chartLabel" :chartDataAr="chartData" />
     </section>
   </DashboardContent>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useGlobalStore } from '@/stores/globalStore';
+import { useJobStore } from '@/stores/jobStore';
+import { storeToRefs } from 'pinia';
+import { onMounted, computed } from 'vue';
+import ChartContainer from '@/components/layout/ChartContainer.vue';
+
+const jobStore = useJobStore();
+const globalStore = useGlobalStore();
+const { statPending, statDeclined, statInterview, monthlyApplications } =
+  storeToRefs(jobStore);
+const chartLabel = computed(() =>
+  monthlyApplications.value.map((item) => item.date),
+);
+const chartData = computed(() =>
+  monthlyApplications.value.map((item) => item.count),
+);
+onMounted(() => {
+  jobStore.getStatsInfo();
+});
+</script>
 
 <style scoped></style>

@@ -2,6 +2,7 @@ import type {
   searchJobTypeOptions,
   searchStatusOptions,
   sortOptions,
+  stats,
 } from '@/utils/constants';
 
 type TSearchJobTypeOptions = typeof searchJobTypeOptions;
@@ -44,6 +45,16 @@ interface IUpdateJobParams {
   job: IJobInfo;
   jobId: string;
 }
+type IDefaultStats = { [K in (typeof stats)[number]]: number };
+interface IMonthlyApp {
+  date: string;
+  count: number;
+}
+
+interface IStats {
+  defaultStats: IDefaultStats;
+  monthlyApplications: IMonthlyApp[];
+}
 
 export type {
   ICreateJob,
@@ -54,4 +65,6 @@ export type {
   IAllJobInfo,
   IGetJobQueryObject,
   IUpdateJobParams,
+  IStats,
+  IMonthlyApp,
 };
