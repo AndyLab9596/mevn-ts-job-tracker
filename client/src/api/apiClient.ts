@@ -3,7 +3,7 @@ import type IError from '@/types/Error.type';
 import axios, { type AxiosRequestHeaders } from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: 'https://mevn-ts-job-tracker.vercel.app/api',
   headers: {
     'Content-Type': 'application/json',
   },
