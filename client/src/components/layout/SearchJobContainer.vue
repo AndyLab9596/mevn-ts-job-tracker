@@ -31,7 +31,11 @@
           :options="[...sortOptions]"
         />
         <div class="h-[36px] mt-[35px] w-full">
-          <BaseButton type="button" is-dangerouse-style>
+          <BaseButton
+            type="button"
+            is-dangerouse-style
+            @click="jobStore.clearSearchFilter"
+          >
             Clear Filters
           </BaseButton>
         </div>

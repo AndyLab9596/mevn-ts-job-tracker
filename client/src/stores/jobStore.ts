@@ -135,6 +135,12 @@ export const useJobStore = defineStore('jobGlobal', {
         globalStore.isLoading = false;
       }
     },
+    clearSearchFilter() {
+      this.search = '';
+      this.searchStatus = 'all';
+      this.searchType = 'all';
+      this.sort = 'a-z';
+    },
   },
   getters: {
     jobList(): IJobStoreState['jobs'] {
