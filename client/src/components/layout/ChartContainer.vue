@@ -34,7 +34,7 @@ export default defineComponent({
         labels: this.chartLabelAr,
         datasets: [
           {
-            label: 'jobs count',
+            label: '6 months latest jobs',
             backgroundColor: '#f87979',
             data: this.chartDataAr,
           },
