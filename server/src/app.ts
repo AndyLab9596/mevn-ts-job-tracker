@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, Response, Request } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -35,6 +35,9 @@ class App {
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: false }));
         this.express.use(compression());
+        this.express.get('/', (_req: Request, res: Response) => {
+            return res.send('Express Typescript on Vercel')
+        })
     }
 
     private initialiseControllers(controller: Controller[]): void {
