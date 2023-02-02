@@ -17,8 +17,9 @@ const jobApi = {
     search,
     searchStatus,
     searchType,
+    sort,
   }: IGetJobQueryObject): Promise<IAllJobInfo> {
-    let url = `/job?page=${page}&status=${searchStatus}&jobType=${searchType}`;
+    let url = `/job?page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
 
     if (search) {
       url = url + `&search=${search}`;
