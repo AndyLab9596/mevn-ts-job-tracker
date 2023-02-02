@@ -1,5 +1,3 @@
-import NotFoundLogo from '@/components/svg/NotFoundLogo.vue';
-
 <template>
   <main class="min-h-screen grid place-items-center text-center">
     <div>

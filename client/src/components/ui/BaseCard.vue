@@ -90,6 +90,7 @@
 import { useJobStore } from '@/stores/jobStore';
 import type { IJobInfo } from '@/types/Job.type';
 import moment from 'moment';
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 
 defineProps<{
@@ -99,13 +100,15 @@ defineProps<{
 const jobStore = useJobStore();
 const router = useRouter();
 
+const openDialog = inject<(id: string) => void>('dialog');
+
 const handleEditJob = (jobId: string) => {
   jobStore.editJob(jobId);
   router.push({ name: 'add-job' });
 };
 
 const handleDeleteJob = (jobId: string) => {
-  console.log(jobId);
+  openDialog && openDialog(jobId);
 };
 </script>
 

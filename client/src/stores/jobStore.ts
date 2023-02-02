@@ -83,6 +83,14 @@ export const useJobStore = defineStore('jobGlobal', {
         globalStore.displayAlert('No job was found', 'danger');
       }
     },
+    async deleteJob(id: string) {
+      try {
+        this.jobs = this.jobs.filter((job) => job._id !== id);
+        await jobApi.deleteJob(id);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     resetJobEdit() {
       this.isEditing = false;
       this.editJobId = '';
@@ -108,5 +116,9 @@ export const useJobStore = defineStore('jobGlobal', {
       this.$state[key] = value;
     },
   },
-  getters: {},
+  getters: {
+    jobList(): IJobStoreState['jobs'] {
+      return this.jobs;
+    },
+  },
 });

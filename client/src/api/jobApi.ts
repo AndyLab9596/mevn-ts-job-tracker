@@ -28,6 +28,10 @@ const jobApi = {
     const url = `/job/${jobId}`;
     return axiosClient.patch(url, job);
   },
+  deleteJob(jobId: string) {
+    const url = `/job/${jobId}`;
+    return axiosClient.delete(url);
+  },
 };
 
 export default jobApi;

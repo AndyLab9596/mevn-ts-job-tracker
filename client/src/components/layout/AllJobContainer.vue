@@ -9,7 +9,7 @@
       <h3>No job to display</h3>
     </div>
     <template v-else>
-      <BaseCard v-for="job in jobStore.jobs" :key="job._id" :job="job" />
+      <BaseCard v-for="job in jobStore.jobList" :key="job._id" :job="job" />
     </template>
     <div class="mt-8 flex justify-end items-center col-span-2">
       <BasePagination />
