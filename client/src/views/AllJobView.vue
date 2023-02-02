@@ -63,7 +63,7 @@ const onDeleteJob = async () => {
   isShowDialog.value = false;
 };
 
-let timerId: number | undefined;
+let timerId: any;
 
 watch(search, () => {
   if (timerId) {
