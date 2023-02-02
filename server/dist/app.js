@@ -32,6 +32,9 @@ class App {
         this.express.use(express_1.default.json());
         this.express.use(express_1.default.urlencoded({ extended: false }));
         this.express.use((0, compression_1.default)());
+        this.express.get('/', (_req, res) => {
+            return res.send('Express Typescript on Vercel');
+        });
     }
     initialiseControllers(controller) {
         controller.forEach((controller) => {
